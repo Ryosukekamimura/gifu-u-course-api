@@ -7,6 +7,7 @@ var mongoose = require('mongoose')
 var cors = require('cors')
 var compression = require('compression')
 var helmet = require('helmet')
+var serverless = require('serverless-http')
 
 // routers
 var indexRouter = require('./routes/index');
@@ -58,3 +59,4 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+module.exports.handler = serverless(app);
