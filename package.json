@@ -22,6 +22,7 @@
     "mongoose": "^5.11.14",
     "morgan": "~1.9.1",
     "nodemon": "^2.0.7",
-    "pug": "^3.0.0"
+    "pug": "^3.0.0",
+    "serverless-http": "^2.7.0"
   }
 }
