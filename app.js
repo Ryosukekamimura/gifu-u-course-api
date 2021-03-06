@@ -10,8 +10,7 @@ var helmet = require('helmet')
 var serverless = require('serverless-http')
 
 // routers
-var indexRouter = require('./routes/index');
-var coursesRouter = require('./routes/courses');
+var coursesRouter = require('./routes/courses')
 
 // express instance
 var app = express();
@@ -36,11 +35,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors())
 
-// setting router
-app.use('/', indexRouter);
 
 // course list
-app.use('/api/v1/courses', coursesRouter);
+app.use('/api/v1', coursesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

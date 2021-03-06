@@ -17,20 +17,10 @@ router.get('/latter', course_controller.latter_course_list)
 // GET 後期授業の詳細を表示する
 router.get('/latter/:id', course_controller.latter_course_details)
 
-// // get plus button
-// router.get('/likes/:id/plus/', course_controller.course_like_plus)
-//
-// // get minus button
-// router.get('/likes/:id/minus/', course_controller.course_like_minus)
-
-
 // GET request for comments list
-router.get('/:id/comments', course_controller.comments_list)
+router.get('/comments/:id', course_controller.comments_list)
 
 // POST request for posting comments
-router.post('/create/comments', course_controller.comments_craete_post)
-
-
-
+router.post('/comments/create', course_controller.comments_craete_post)
 
 module.exports = router
