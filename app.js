@@ -8,15 +8,17 @@ var cors = require('cors')
 var compression = require('compression')
 var helmet = require('helmet')
 var serverless = require('serverless-http')
+var session = require('express-session')
 
 // routers
-var coursesRouter = require('./routes/courses')
+var coursesRouter = require('./routes/courses');
+const { default: databaseURL } = require('./databaseSettings');
 
 // express instance
 var app = express();
 
 // Set up default mongoose connection
-var mongoDB = 'mongodb+srv://dbUser:gifu@cluster0.rsz4k.mongodb.net/mydatabase?retryWrites=true&w=majority'
+var mongoDB = databaseURL
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true })
 var db = mongoose.connection
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
@@ -24,6 +26,9 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+
+// trust first proxy
+app.set('trust proxy', 1)
 
 // express use
 app.use(helmet())
@@ -34,7 +39,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors())
-
+app.use(session({
+  secret: 's3Cur3',
+  name: 'sessionId'
+}))
 
 // course list
 app.use('/api/v1', coursesRouter);
