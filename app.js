@@ -8,7 +8,6 @@ var cors = require('cors')
 var compression = require('compression')
 var helmet = require('helmet')
 var serverless = require('serverless-http')
-var session = require('express-session')
 
 // routers
 var coursesRouter = require('./routes/courses');
@@ -27,8 +26,12 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-// trust first proxy
-app.set('trust proxy', 1)
+// cors settings //
+var corsOptions = {
+  origin: 'https://gifu-zenkyo.netlify.app/',
+  credentials: true,
+  optionsSuccessStatus: 200
+}
 
 // express use
 app.use(helmet())
@@ -38,11 +41,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(cors())
-app.use(session({
-  secret: 's3Cur3',
-  name: 'sessionId'
-}))
+app.use(cors(corsOptions))
+
 
 // course list
 app.use('/api/v1', coursesRouter);
